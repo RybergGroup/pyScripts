@@ -8,6 +8,10 @@ if len(sys.argv) != 2:
     sys.exit(1)
 
 points_file = sys.argv[1]
+if len(sys.argv) > 2 and sys.argv[2]:
+    coord_sys = sys.argv[2]
+else:
+    coord_sys = "EPSG:4326"
 
 # 2. Paths
 polygon_file = 'sockenstad.gpkg'  # assuming it is in the same folder
@@ -22,7 +26,7 @@ points_df = pd.read_csv(points_file)
 points = gpd.GeoDataFrame(
     points_df,
     geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude),
-    crs="EPSG:4326"
+    crs=coord_sys
 )
 
 # 5. Reproject points to match polygons, if needed
